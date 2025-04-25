@@ -19,24 +19,28 @@ class ContentGenerator:
     def __init__(self):
         """Inicializa el generador de texto con un modelo LLM de Groq."""
         # TODO: Inicializar el manejador del modelo LLM de Groq
-        self.llm = None
+        self.llm = GroqModelHandler().get_llm()
 
     def create_parser(self):
         """Crea un parser para el contenido del reel."""
         # TODO: Crear un JsonOutputParser para ContentGenerationScript
-        return None
+        return JsonOutputParser(pydantic_object=ContentGenerationScript)
 
     def create_tone_parser(self):
         """Crea un parser para el tono del reel."""
         # TODO: Crear un JsonOutputParser para ToneGenerationScript
-        return None
+        return JsonOutputParser(pydantic_object=ToneGenerationScript)
 
     def create_script_chain(self, template, parser, input_variables):
         """Crea la cadena de resumen con un PromptTemplate y el parser definido."""
         # TODO: Crear un PromptTemplate con el template, input_variables y format_instructions
-        reduce_prompt = None
+        reduce_prompt = PromptTemplate(
+            template=template,
+            input_variables=input_variables,
+            partial_variables={"format_instructions": parser.get_format_instructions()},
+        )
         # TODO: Crear un LLMChain con el modelo, el prompt y el parser
-        return None
+        return LLMChain(llm=self.llm, prompt=reduce_prompt, output_parser=parser)
 
     def generate_text(self, info):
         """Genera un texto basado en la información de entrada."""
@@ -67,15 +71,28 @@ class ContentGenerator:
 
     def apply_tone(self, script, new_target_audience, new_tone, language):
         # TODO: Crear el parser para el tono
-        parser_tone = None
+        parser_tone = self.create_tone_parser()
         # TODO: Crear la cadena de generación de tono
-        generation_chain = None
+        generation_chain = self.create_script_chain(
+            template=GENERATE_REFINED_INFO,
+            parser=parser_tone,
+            input_variables=["previous_script", "new_target_audience", "new_tone", "language"],
+        )
 
         # TODO: Invocar la cadena con el script, audiencia, tono y lenguaje
-        return None
+        return generation_chain.invoke(
+            {
+                "previous_script": script,
+                "new_target_audience": new_target_audience,
+                "new_tone": new_tone,
+                "language": language,
+            }
+        )
 
     def generate_content(self, metadata, new_target_audience, new_tone, language):
         # TODO: Generar el texto inicial
-        generate_text = None
+        generate_text = self.generate_text(metadata)
         # TODO: Aplicar el tono al texto generado
-        return None
+        return self.apply_tone(
+            generate_text["content"], new_target_audience, new_tone, language
+        )

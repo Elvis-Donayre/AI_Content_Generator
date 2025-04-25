@@ -32,7 +32,8 @@ def generate_content(request: ContentGeneration):
         logger.info(f"Scraping metadata from URL: {request.url}")
 
         # TODO: Scrape metadata using FalabellaScraper
-        metadata = None
+        scraper = FalabellaScraper(request.url)
+        metadata = scraper.scrape()
 
         # TODO: Validate if metadata is valid
         if not metadata or not isinstance(metadata, dict):
@@ -42,7 +43,13 @@ def generate_content(request: ContentGeneration):
         logger.info(f"Metadata scraped: {metadata}")
 
         # TODO: Generate content using the ContentGenerator
-        content = None
+        content_generator = ContentGenerator()
+        content = content_generator.generate_content(
+            metadata, 
+            request.new_target_audience, 
+            request.new_tone, 
+            request.language
+        )
 
         # TODO: Log successful content generation
         logger.info("Content generated successfully")

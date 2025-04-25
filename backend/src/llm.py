@@ -11,8 +11,8 @@ load_dotenv()
 class GroqModelHandler:
     def __init__(self):
         # TODO: Load the Groq API key and model name from environment variables
-        api_key = None
-        model_name = None
+        api_key = os.getenv("GROQ_API_KEY")
+        model_name = os.getenv("MODEL_NAME", "gemma2-9b-it")
 
         # TODO: Validate if the API key is provided
         if not api_key:
@@ -21,12 +21,17 @@ class GroqModelHandler:
             )
 
         # TODO: Initialize the Groq client and ChatGroq LLM
-        self.client = None
-        self.llm = None
+        self.client = Groq(api_key=api_key)
+        self.llm = ChatGroq(
+            model_name=model_name,
+            groq_api_key=api_key,
+            temperature=0.7,
+            max_tokens=1024,
+        )
 
     def get_client(self):
         # TODO: Return the Groq client instance
-        return None
+        return self.client
 
     def get_llm(self):
         # Example method for students to follow
