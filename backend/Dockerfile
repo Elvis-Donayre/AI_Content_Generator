@@ -1,26 +1,5 @@
 FROM tiangolo/uvicorn-gunicorn:python3.9
 
-# Instalar Chrome y sus dependencias
-RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
-    unzip \
-    xvfb \
-    libxi6 \
-    libgconf-2-4 \
-    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list \
-    && apt-get update \
-    && apt-get install -y google-chrome-stable \
-    && apt-get clean
-
-# Instalar ChromeDriver
-RUN CHROME_DRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE) \
-    && wget -q "https://chromedriver.storage.googleapis.com/${CHROME_DRIVER_VERSION}/chromedriver_linux64.zip" -O /tmp/chromedriver.zip \
-    && unzip /tmp/chromedriver.zip -d /usr/local/bin/ \
-    && rm /tmp/chromedriver.zip \
-    && chmod +x /usr/local/bin/chromedriver
-
 # Crear y establecer el directorio de trabajo
 WORKDIR /backend
 
