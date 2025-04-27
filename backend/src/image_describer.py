@@ -20,7 +20,14 @@ class ImageGridDescriber:
     def __init__(self):
         # Initialize the GroqModelHandler client and load the vision model name
         self.client = GroqModelHandler().get_client()
-        self.vision_model = os.getenv("VISION_MODEL_NAME", "meta-llama/llama-4-scout-17b-16e-instruct")
+        
+        # Get the vision model from environment variables with a clear fallback
+        vision_model = os.getenv("VISION_MODEL_NAME")
+        if not vision_model:
+            vision_model = "deepseek-r1-distill-llama-70b"
+            logger.warning(f"VISION_MODEL_NAME no encontrado en .env, usando modelo por defecto: {vision_model}")
+        
+        self.vision_model = vision_model
         logger.info(f"Inicializado ImageGridDescriber con modelo: {self.vision_model}")
 
     @staticmethod
@@ -112,6 +119,9 @@ class ImageGridDescriber:
             base64_image = self.encode_image(concatenated_image)
             
             logger.info("Solicitando descripción de la imagen al modelo de visión...")
+            # Print model being used for debugging
+            logger.info(f"Usando modelo de visión: {self.vision_model}")
+            
             completion = self.client.chat.completions.create(
                 model=self.vision_model,
                 messages=[
@@ -132,8 +142,8 @@ class ImageGridDescriber:
                         ],
                     }
                 ],
-                temperature=0.7,
-                max_tokens=300,  # Descripción más concisa
+                temperature=1,
+                max_tokens=1024, 
             )
 
             description = completion.choices[0].message.content
