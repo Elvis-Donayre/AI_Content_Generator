@@ -5,7 +5,7 @@ import streamlit as st
 
 def compute_content(payload: ContentGeneration, server_url: str):
     try:
-        # TODO: Send a POST request to the server with the payload
+        # Enviar solicitud POST al servidor con el payload
         r = requests.post(
             server_url,
             json=payload.dict(),
@@ -13,14 +13,24 @@ def compute_content(payload: ContentGeneration, server_url: str):
             timeout=60
         )
 
-        # TODO: Raise an exception if the request fails
+        # Lanzar excepción si la solicitud falla
         r.raise_for_status()
 
-        # TODO: Extract and return the generated content from the response
+        # Extraer el contenido generado de la respuesta
         response_data = r.json()
+        
+        # Obtener el contenido refinado del diccionario de respuesta
         generated_content = response_data.get("generated_content", {}).get("refined_content", "")
+        
+        # Limpiar el prefijo "refined_content=" si existe
+        if generated_content.startswith("refined_content="):
+            generated_content = generated_content[len("refined_content="):]
+            
+        # Reemplazar los saltos de línea literales "\n" con espacios
+        generated_content = generated_content.replace("\\n", " ")
+        
         return generated_content
     except requests.exceptions.RequestException as e:
-        # TODO: Handle request exceptions and return an error message
+        # Manejar excepciones de solicitud y devolver un mensaje de error
         st.error(f"Error al comunicarse con el servidor: {str(e)}")
         return None

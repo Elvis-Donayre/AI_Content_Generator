@@ -1,139 +1,148 @@
-# AI-Powered Content Generation Tool
+# 🚀 AI-Powered E-commerce Content Generator for Social Media
 
-## Overview
+## 🔍 Overview
 
-This project is a versatile AI-powered tool designed to generate and refine content for various platforms, including Instagram, TikTok, and more. It is highly customizable, allowing users to tailor the content to different target audiences, tones, and languages. The tool leverages advanced Large Language Models (LLMs) to create engaging and dynamic content based on product information scraped from e-commerce websites.
+This project is a sophisticated AI-powered system that automatically generates engaging marketing content for e-commerce products. It extracts product information from e-commerce websites, analyzes product images, and leverages large language models to create compelling marketing scripts tailored to specific audiences, tones, and languages.
 
-# Folder Structure
+## ✨ Key Features
 
-```
-project-root/
-│
-├── backend/
-│   ├── Dockerfile               # Docker configuration for the backend
-│   ├── models/                  # Pydantic model files
-│   ├── prompts/                 # Prompt template files
-│   ├── src/                     # Backend source code
-│   │   ├── content_generator.py  # Content generation logic
-│   │   ├── image_describer.py    # Image description handling
-│   │   ├── llm.py                # LLM interaction module
-│   │   ├── scraping.py           # Web scraping functionality
-│   │   └── server.py             # FastAPI server
-│   └── requirements.txt          # Python dependencies for the backend
-│
-├── frontend/
-│   ├── Dockerfile               # Docker configuration for the frontend
-│   ├── models/                  # Pydantic model files
-│   ├── src/                     # Frontend source code
-│   │   ├── generate_content.py   # Content generation logic for UI
-│   │   └── ui.py                 # User interface logic
-│   └── requirements.txt          # Python dependencies for the frontend
-│
-├── README.md                    # Project documentation
-└── docker-compose.yml            # Docker Compose configuration
-```
+- 🕸️ **Web Scraping**: Automatically extracts product details from e-commerce sites
+- 🖼️ **Image Analysis**: Generates descriptions of product images using computer vision models
+- ✍️ **Content Generation**: Creates marketing scripts tailored to specific audiences and tones
+- 🌍 **Multi-language Support**: Generates content in both Spanish and English
+- 👥 **User-friendly Interface**: Simple Streamlit UI for easy content generation
 
-## Features
+## 🏗️ Technical Architecture
 
-- **Content Generation**: Automatically generates content based on product details such as title, price, description, and available sizes.
-- **Tone Refinement**: Adjusts the tone and language of the content to match a new target audience and tone specified by the user.
-- **Image Description**: Describes product images to provide additional context for the content.
-- **Web Scraping**: Extracts product information from e-commerce websites like Falabella.
-- **API Integration**: Provides a FastAPI backend for content generation and a Streamlit frontend for user interaction.
+The project follows a microservices architecture with two main components:
 
-## Project Structure
+### 🔧 Backend Services
 
-The project is divided into two main components:
+- **Web Scraping Engine**: Extracts product details using Selenium and BeautifulSoup
+- **Image Analysis Service**: Generates descriptions from product images using vision models
+- **Content Generation Engine**: Creates marketing scripts using LLMs through Groq API
+- **FastAPI Server**: Provides RESTful API endpoints for the frontend
 
-1. **Backend**: Handles the logic for content generation, tone refinement, and web scraping. It is built using FastAPI and runs on port **8004**.
-2. **Frontend**: Provides a user-friendly interface for inputting product URLs and generating content. It is built using Streamlit and runs on port **8501**.
+### 🖥️ Frontend Interface
 
-### Backend Structure
+- **Streamlit Application**: User-friendly interface for generating content
+- **Input Configuration**: Options for target audience, tone, and language
+- **Output Visualization**: Displays the generated content with download options
 
-- **Dockerfile**: Defines the environment for the backend service.
-- **models/**: Contains Pydantic models for data validation.
-- **prompts/**: Stores templates for generating and refining content.
-- **src/**: Contains the main logic for content generation, image description, and web scraping.
-  - **content_generator.py**: Generates and refines content using LLMs.
-  - **image_describer.py**: Describes product images.
-  - **llm.py**: Handles interactions with the Groq API.
-  - **scraping.py**: Scrapes product information from e-commerce websites.
-  - **server.py**: Defines the FastAPI endpoints for content generation.
+## 📊 Data Science Components
 
-### Frontend Structure
+### 1. 🕷️ Web Scraping and Data Extraction
 
-- **Dockerfile**: Defines the environment for the frontend service.
-- **models/**: Contains Pydantic models for data validation.
-- **src/**: Contains the Streamlit UI and logic for interacting with the backend.
-  - **generate_content.py**: Sends requests to the backend to generate content.
-  - **ui.py**: Defines the Streamlit interface for user interaction.
+The system uses a robust scraping mechanism based on Selenium and BeautifulSoup to extract product information:
 
-## Documentation of Files
+- Product name, price, and available sizes
+- Product specifications and additional information
+- High-resolution product images
 
-### Backend
+The scraper is designed to handle the dynamic nature of modern e-commerce sites with intelligent fallback mechanisms.
 
-- **Dockerfile**: Configures the Docker environment for the backend service.
-- **models/content_generation_models.py**: Defines Pydantic models for content generation and tone refinement.
-- **prompts/content_generation_prompts.py**: Contains templates for generating content.
-- **prompts/tone_generator.py**: Contains templates for refining content tone.
-- **src/content_generator.py**: Handles the generation and refinement of content using LLMs.
-- **src/image_describer.py**: Describes product images using the Groq API.
-- **src/llm.py**: Manages interactions with the Groq API.
-- **src/scraping.py**: Scrapes product information from e-commerce websites.
-- **src/server.py**: Defines FastAPI endpoints for content generation.
+### 2. 👁️ Computer Vision for Image Analysis
 
-### Frontend
+The project incorporates computer vision capabilities:
 
-- **Dockerfile**: Configures the Docker environment for the frontend service.
-- **models/content_generation_models.py**: Defines Pydantic models for content generation.
-- **src/generate_content.py**: Sends requests to the backend to generate content.
-- **src/ui.py**: Provides the Streamlit interface for user interaction.
+- Creates a grid of product images for comprehensive visual analysis
+- Uses the `deepseek-r1-distill-llama-70b` vision model through Groq API
+- Generates detailed product descriptions highlighting visual features
 
-## Getting Started
+### 3. 🧠 Natural Language Processing with LLMs
 
-### Prerequisites
+The content generation pipeline leverages:
 
-- Docker and Docker Compose installed on your machine.
-- A `.env` file with the necessary environment variables (e.g., `GROQ_API_KEY`, `BACKEND_URL`).
+- Groq API integration with models like `gemma2-9b-it`
+- Custom prompt engineering for initial content generation
+- Content refinement based on audience, tone, and language parameters
+- Structured output parsing with Pydantic models
 
-### Installation
+## 🔄 Data Flow Pipeline
+
+1. User submits product URL with desired audience, tone, and language parameters
+2. Backend scrapes product details and metadata
+3. Product images are processed and analyzed using computer vision
+4. Initial content is generated based on product information
+5. Content is refined based on specified audience and tone parameters
+6. Final content is returned to the user through the Streamlit interface
+
+## 🛠️ Technologies Used
+
+- **Python 3.9**: Core programming language
+- **FastAPI**: Backend API framework
+- **Streamlit**: Frontend user interface
+- **Langchain**: Framework for LLM orchestration
+- **Groq API**: LLM integration for content generation
+- **Selenium & BeautifulSoup**: Web scraping
+- **PIL/Pillow**: Image processing
+- **Docker & Docker Compose**: Containerization and orchestration
+- **Pydantic**: Data validation and serialization
+
+## 🚦 Getting Started
+
+### 📋 Prerequisites
+
+- Docker and Docker Compose
+- Groq API key
+
+### 📝 Setup Instructions
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/ai-content-generation-tool.git
-   cd ai-content-generation-tool
+   git clone https://github.com/yourusername/ai-reel-content-generator.git
+   cd ai-reel-content-generator
    ```
 
-2. Build and start the Docker containers:
+2. Create a `.env` file in the root directory with the following variables:
+   ```
+   GROQ_API_KEY="your_groq_api_key"
+   MODEL_NAME="gemma2-9b-it"
+   VISION_MODEL_NAME="deepseek-r1-distill-llama-70b"
+   BACKEND_URL="http://backend:8004/content_generator"
+   ```
+
+3. Build and run the application using Docker Compose:
    ```bash
    docker-compose up --build
    ```
 
-3. Access the frontend in your browser at `http://localhost:8501`.
+4. Access the application:
+   - Frontend: Open your browser and navigate to `http://localhost:8501`
+   - Backend API: Available at `http://localhost:8004`
 
-### Usage
+## 📱 Usage
 
-1. **Input Product URL**: Enter the URL of the product you want to generate content for.
-2. **Set Target Audience**: Specify the new target audience for the content.
-3. **Choose Tone**: Select the tone you want the content to have (e.g., funny, serious, trendy).
-4. **Select Language**: Choose the language for the content (e.g., Spanish, English).
-5. **Generate Content**: Click the "Generar Guion" button to generate the content.
-6. **Download Content**: Once generated, you can download the content in JSON format.
+1. Enter the URL of an e-commerce product
+2. Select your target audience (e.g., "Young adults (25-35 years)")
+3. Choose the desired tone (e.g., "Professional", "Casual", "Motivational")
+4. Select the language (Spanish or English)
+5. Click "Generate Script" to create your marketing content
+6. Download the generated content as JSON
 
-## API Endpoints
+## 🔮 Future Improvements
 
-### Backend
-- **Swagger Docs**: Accessible at `http://localhost:8004/docs`
-  - Provides a user interface to interact with the API using Swagger Docs.
+- **Enhanced Image Analysis**: Implement product segmentation and attribute detection
+- **Multi-platform Content**: Generate platform-specific content for Instagram, TikTok, etc.
+- **Sentiment Analysis**: Incorporate customer review sentiment into content generation
+- **A/B Testing Integration**: Automatically generate multiple variants for testing
+- **Performance Optimization**: Implement caching and parallel processing for faster scraping
+- **Expanded Language Support**: Add more languages beyond Spanish and English
 
-- **Health Check**: `GET /health`
-  - Checks the health of the API.
-  
-- **Content Generation**: `POST /content_generator`
-  - Generates content based on the provided product URL, target audience, tone, and language.
+## 🧩 Technical Implementation Challenges
 
-### Frontend
+- **Web Scraping Robustness**: Implementing fallback strategies for various e-commerce site structures
+- **Image Processing Optimization**: Managing image sizes for API limits while maintaining quality
+- **Prompt Engineering**: Crafting effective prompts for consistent and high-quality content
+- **Error Handling**: Graceful recovery from API errors and timeouts
+- **Containerization**: Ensuring proper dependency management across microservices
 
-- **Streamlit UI**: Accessible at `http://localhost:8501`
-  - Provides a user interface for generating and downloading content.
+## 💡 Data Science Insights
 
+- The project demonstrates effective integration of multiple AI domains (NLP, computer vision, web scraping)
+- Prompt engineering is crucial for extracting high-quality content from LLMs
+- Structured output parsing ensures consistent application behavior
+- Docker containerization simplifies deployment and dependency management
+- The microservices architecture allows for independent scaling of components
+
+This project showcases practical applications of AI for e-commerce marketing, streamlining content creation processes while maintaining quality and relevance.

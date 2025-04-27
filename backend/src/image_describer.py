@@ -24,7 +24,7 @@ class ImageGridDescriber:
         # Get the vision model from environment variables with a clear fallback
         vision_model = os.getenv("VISION_MODEL_NAME")
         if not vision_model:
-            vision_model = "deepseek-r1-distill-llama-70b"
+            vision_model = "meta-llama/llama-4-scout-17b-16e-instruct"
             logger.warning(f"VISION_MODEL_NAME no encontrado en .env, usando modelo por defecto: {vision_model}")
         
         self.vision_model = vision_model

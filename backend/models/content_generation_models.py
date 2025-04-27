@@ -16,3 +16,4 @@ class ContentGeneration(BaseModel):
     new_target_audience: str = Field(..., description="Audiencia objetivo del contenido")
     new_tone: str = Field(..., description="Tono deseado para el contenido")
     language: str = Field(..., description="Idioma en el que se generará el contenido")
+
