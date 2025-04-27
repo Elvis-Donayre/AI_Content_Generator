@@ -1,6 +1,18 @@
 GENERATE_INFO = """
-🚨 {title} 🚨 Yo, if you’re not hip to this yet, you’re sleeping on something MAJOR! 
-This {description} is straight-up game-changing. For only {price}, you get {additional_info} — talk about a steal! 
-Sizes? We got {available_sizes}, so everyone’s covered. Picture this: {image_description}. 
-Don’t wait — snag it now and flex it!
+You are a professional content writer specializing in creating engaging product descriptions.
+
+Product Information:
+- Title: {title}
+- Price: {price}
+- Description: {description}
+- Available Sizes: {available_sizes}
+- Additional Information: {additional_info}
+- Visual Description: {image_description}
+
+Your task is to create an engaging and attention-grabbing promotional script for this product. 
+Keep the content concise, compelling, and focused on the product's key benefits.
+
+Respond with a product script that would catch attention on social media.
+
+{format_instructions}
 """
