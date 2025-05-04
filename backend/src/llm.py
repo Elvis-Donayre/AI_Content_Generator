@@ -10,7 +10,7 @@ load_dotenv()
 
 class GroqModelHandler:
     def __init__(self):
-        # TODO: Load the Groq API key and model name from environment variables
+        # Load the Groq API key and model name from environment variables
         api_key = os.getenv("GROQ_API_KEY")
         model_name = os.getenv("MODEL_NAME", "gemma2-9b-it")
 
@@ -20,7 +20,7 @@ class GroqModelHandler:
                 "La API Key de Groq no está configurada en el archivo .env"
             )
 
-        # TODO: Initialize the Groq client and ChatGroq LLM
+        #Initialize the Groq client and ChatGroq LLM
         self.client = Groq(api_key=api_key)
         self.llm = ChatGroq(
             model_name=model_name,
